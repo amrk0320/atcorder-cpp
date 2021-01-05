@@ -16,15 +16,18 @@ int main() {
     g[s].push_back(make_pair(t, d));
   }
   p[r] = 0;
+  // 各辺
   for (int i = 0; i < n; i++){
     int min_v = -1;
     ll cost = INF;
+    // 最小コストの頂点を求める
     for (int v = 0; v < n; v++){
       if (!used[v] && p[v] < cost){
         min_v = v;
         cost = p[v];
       }
     }
+    // 全ての頂点を訪問済
     if (min_v == -1) break;
     for(pa e: g[min_v]){
       if (p[min_v] + e.second < p[e.first]){
@@ -39,5 +42,5 @@ int main() {
     } else {
       cout << p[i] << endl;
     }
-  } 
+  }
 }

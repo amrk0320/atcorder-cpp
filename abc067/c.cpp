@@ -6,7 +6,7 @@ typedef pair<int, int> pa;
 int main() {  
   int n;
   cin >> n;
-  vector<ll> a(n);
+  vector<int> a(n);
   for (int i = 0; i < n; i++){
     cin >> a.at(i);
   }
@@ -14,15 +14,17 @@ int main() {
   for (int i = 0; i < n; i++){
     s.at(i+1) = s.at(i) + a.at(i);
   }
-  vector<ll> smax(n+1, 0);
-  for (int i = 0; i < n; i++){
-    smax.at(i+1) = max(smax.at(i), s.at(i+1));
-  }
-  ll now = 0;
-  ll sai = 0;
-  for (int i = 0; i < n; i++){
-    sai = max(sai, now + smax.at(i+1));
-    now += s.at(i+1);
-  }
-  cout << sai << endl;
+  ll ans = 0;
+  for (int i = 1; i < n; i++){
+    ll x,y;
+    x = y = 0;
+    x = s.at(i);
+    y = s.at(n) - x;
+    if (i == 1) {
+      ans = abs(x-y);
+    } else {
+      ans = min(ans, abs(x-y));
+    }
+  } 
+  cout << ans << endl;
 }

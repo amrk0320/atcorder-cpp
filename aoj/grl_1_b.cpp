@@ -3,39 +3,37 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pa;
 
-struct Edge {
+struct edge {
+    int from; // 隣接頂点番号
     int to; // 隣接頂点番号
     long long w; // 重み
-    Edge(int to, int w) : to(to), w(w) {}
 };
 
-typedef vector<vector<Edge> > Graph;
 const ll INF = 2LL << 60;
 
 int main() {  
   int v, e, r;
   cin >> v >> e >> r;
   vector<ll> d(v, INF);
-  Graph g(v);
+  vector<edge> es(e);
   for (int i = 0; i < e; i++){
-    int s, t, de;
-    cin >> s >> t >> de;
-    g[s].push_back(Edge(t, de));
+    cin >> es[i].from >> es[i].to >> es[i].w;
   }
   d[r] = 0;
   for (int i = 0; i < v; i++){
-    for (int j = 0; j < v; j++){
-      if (d[j] == INF) continue;
-      for (Edge ed: g[j]) {
-        if (d[j] + ed.w < d[ed.to]){
-          d[ed.to] = d[j] + ed.w;
-          if (i == v-1){
-            cout << "NEGATIVE CYCLE" << endl;   
-            return 0;
-          }
+    bool update = false;
+    for(edge ed: es) {
+      if (d[ed.from] == INF) continue;
+      if (d[ed.from] + ed.w < d[ed.to]){
+        d[ed.to] = d[ed.from] + ed.w;
+        update = true;
+        if (i == v-1){
+          cout << "NEGATIVE CYCLE" << endl;   
+          return 0;
         }
       }
     }
+    if (!update) break;
   }
   for (int i = 0; i < v; i++){
     if (d[i] == INF){
